@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.Random;
 import java.util.UUID;
@@ -18,6 +19,7 @@ public class Item implements Parcelable {
 
     private static final String DEFAULT_CAPTION = "New item ";
 
+    @NonNull
     @PrimaryKey
     private String uuid;
     private String name;
@@ -29,22 +31,19 @@ public class Item implements Parcelable {
         setRandomName();
     }
 
-    public Item(String uuid, String name) {
+    public Item(@NonNull String uuid, String name) {
 
         this.uuid = uuid;
         this.name = name;
     }
 
+    @NonNull
     public String getUuid() {
         return uuid;
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public void setName(String name) {

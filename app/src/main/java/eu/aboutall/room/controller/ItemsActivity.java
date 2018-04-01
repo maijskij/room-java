@@ -91,20 +91,21 @@ public class ItemsActivity extends AppCompatActivity implements ItemListEventsCa
 
     // ItemsLoader
 
+    @NonNull
     @Override
     public Loader<List<Item>> onCreateLoader(int id, Bundle args) {
         return new ItemsLoader(this);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Item>> loader, List<Item> data) {
+    public void onLoadFinished(@NonNull Loader<List<Item>> loader, List<Item> data) {
         if (loader.getId() == ITEMS_LOADER) {
             mAdapter.setData(data);
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Item>> loader) {
+    public void onLoaderReset(@NonNull Loader<List<Item>> loader) {
         mAdapter.clearData();
     }
 }

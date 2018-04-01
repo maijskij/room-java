@@ -2,9 +2,7 @@ package eu.aboutall.room.controller;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
-import java.util.Collections;
 import java.util.List;
 
 import eu.aboutall.room.db.DataSource;
@@ -18,7 +16,7 @@ public class ItemsLoader extends AsyncTaskLoader<List<Item>> {
 
     private List<Item> mData;
 
-    public ItemsLoader(Context context) {
+    ItemsLoader(Context context) {
         super(context);
     }
 
