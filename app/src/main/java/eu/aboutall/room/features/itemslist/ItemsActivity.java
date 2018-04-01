@@ -1,4 +1,4 @@
-package eu.aboutall.room.controller;
+package eu.aboutall.room.features.itemslist;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +12,8 @@ import android.view.View;
 
 
 import eu.aboutall.room.R;
-import eu.aboutall.room.db.DataSource;
-import eu.aboutall.room.model.Item;
+import eu.aboutall.room.data.room.ItemsDbService;
+import eu.aboutall.room.data.Item;
 
 
 import java.util.ArrayList;

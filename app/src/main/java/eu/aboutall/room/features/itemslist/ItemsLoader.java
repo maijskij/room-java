@@ -1,12 +1,12 @@
-package eu.aboutall.room.controller;
+package eu.aboutall.room.features.itemslist;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
 import java.util.List;
 
-import eu.aboutall.room.db.DataSource;
-import eu.aboutall.room.model.Item;
+import eu.aboutall.room.data.room.DataSource;
+import eu.aboutall.room.data.Item;
 
 /**
  * Created by denis on 29/08/2017.

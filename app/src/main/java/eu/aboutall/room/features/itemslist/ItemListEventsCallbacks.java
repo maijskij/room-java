@@ -1,6 +1,6 @@
-package eu.aboutall.room.controller;
+package eu.aboutall.room.features.itemslist;
 
-import eu.aboutall.room.model.Item;
+import eu.aboutall.room.data.Item;
 
 /**
  * Created by denis on 25/08/2017.

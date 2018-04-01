@@ -1,4 +1,4 @@
-package eu.aboutall.room.model;
+package eu.aboutall.room.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;

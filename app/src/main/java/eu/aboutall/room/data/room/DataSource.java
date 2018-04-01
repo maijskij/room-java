@@ -1,11 +1,7 @@
-package eu.aboutall.room.db;
+package eu.aboutall.room.data.room;
 
-import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.content.Context;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by denis on 25/08/2017.

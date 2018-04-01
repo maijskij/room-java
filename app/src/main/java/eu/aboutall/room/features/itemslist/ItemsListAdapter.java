@@ -1,4 +1,4 @@
-package eu.aboutall.room.controller;
+package eu.aboutall.room.features.itemslist;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import eu.aboutall.room.model.Item;
+import eu.aboutall.room.data.Item;
 
 import java.util.List;
 

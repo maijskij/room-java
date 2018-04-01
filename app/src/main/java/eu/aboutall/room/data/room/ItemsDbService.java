@@ -1,4 +1,4 @@
-package eu.aboutall.room.controller;
+package eu.aboutall.room.data.room;
 
 /**
  * Created by denis on 25/08/2017.
@@ -8,8 +8,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
-import eu.aboutall.room.db.DataSource;
-import eu.aboutall.room.model.Item;
+import eu.aboutall.room.data.Item;
 
 public class ItemsDbService extends IntentService {
 

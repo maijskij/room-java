@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="eu.aboutall.room.controller.ItemsActivity"
+            android:name="eu.aboutall.room.features.itemslist.ItemsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,7 +21,7 @@
         </activity>
 
         <service
-            android:name="eu.aboutall.room.controller.ItemsDbService"
+            android:name="eu.aboutall.room.data.room.ItemsDbService"
             android:exported="false" />
     </application>
 
