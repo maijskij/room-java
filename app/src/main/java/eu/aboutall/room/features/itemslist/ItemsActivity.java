@@ -3,8 +3,6 @@ package eu.aboutall.room.features.itemslist;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,18 +10,21 @@ import android.view.View;
 
 
 import eu.aboutall.room.R;
-import eu.aboutall.room.data.room.ItemsDbService;
+import eu.aboutall.room.data.room.DataSource;
 import eu.aboutall.room.data.Item;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsActivity extends AppCompatActivity implements ItemListEventsCallbacks, LoaderManager.LoaderCallbacks<List<Item>>{
+import static com.google.common.base.Preconditions.checkNotNull;
 
-    private static final int ITEMS_LOADER = 1;
+public class ItemsActivity extends AppCompatActivity implements ItemListEventsCallbacks, ItemsContract.View {
+
 
     private ItemsListAdapter mAdapter;
+
+    private ItemsPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemListEventsCa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addNewItem(new Item());
+
+                mPresenter.addNewItem();
             }
         });
 
@@ -44,20 +46,42 @@ public class ItemsActivity extends AppCompatActivity implements ItemListEventsCa
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
 
+        // Create the presenter
+        mPresenter = new ItemsPresenter(
+                DataSource.getInstance(this.getApplicationContext()).db.itemsDao(),
+                this);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        restartLoader();
+    public void addNewItem(Item item) {
+        mAdapter.add(item);
     }
 
+    @Override
+    public void updateItem(Item item, int position) {
+        mAdapter.dataChanged(position, item);
+    }
 
-    private void addNewItem(Item item) {
+    @Override
+    public void deleteItem(int position) {
+        mAdapter.removeAtPosition(position);
+    }
 
-        ItemsDbService.addRecord(this, item );
-        mAdapter.add(item);
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.unsubscribe();
+    }
+
+    @Override
+    public void setPresenter(@NonNull ItemsContract.Presenter presenter) {
+       // mPresenter = checkNotNull(presenter);
     }
 
 
@@ -67,45 +91,35 @@ public class ItemsActivity extends AppCompatActivity implements ItemListEventsCa
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void restartLoader(){
-        getSupportLoaderManager().restartLoader(ITEMS_LOADER, null, this);
-    }
-
-
-
     // ItemListEventsCallbacks implementation
 
     @Override
     public void onDeleteItem(Item item, int position) {
-        ItemsDbService.removeRecord(this, item );
-        mAdapter.removeAtPosition(position);
+        mPresenter.deleteItem(item, position);
     }
 
     @Override
     public void onEditItem(Item item, int position) {
-
-        ItemsDbService.updateRecord(this, item );
-        mAdapter.dataChanged(position, item);
-    }
-
-
-    // ItemsLoader
-
-    @NonNull
-    @Override
-    public Loader<List<Item>> onCreateLoader(int id, Bundle args) {
-        return new ItemsLoader(this);
+        mPresenter.updateItem(item, position);
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader<List<Item>> loader, List<Item> data) {
-        if (loader.getId() == ITEMS_LOADER) {
-            mAdapter.setData(data);
-        }
+    public void setLoadingIndicator(boolean active) {
+
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader<List<Item>> loader) {
+    public void showItems(List<Item> items) {
+        mAdapter.setData( items );
+    }
+
+    @Override
+    public void showLoadingTasksError() {
+
+    }
+
+    @Override
+    public void showNoTasks() {
         mAdapter.clearData();
     }
 }

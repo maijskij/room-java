@@ -20,9 +20,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="eu.aboutall.room.data.room.ItemsDbService"
-            android:exported="false" />
     </application>
 
 </manifest>
