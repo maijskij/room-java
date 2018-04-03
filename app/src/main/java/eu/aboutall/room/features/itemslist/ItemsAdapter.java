@@ -15,13 +15,18 @@ import java.util.List;
  * Created by denis on 25/08/2017.
  */
 
-public class ItemsListAdapter extends RecyclerView.Adapter<ItemsListAdapter.ViewHolder> {
+public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
 
+    public interface Events {
+
+        void onDeleteItem(Item item, int position);
+        void onEditItem(Item item, int position);
+    }
 
     private final List<Item> mValues;
-    private final ItemListEventsCallbacks mListener;
+    private final Events mListener;
 
-    ItemsListAdapter(List<Item> items, ItemListEventsCallbacks listener) {
+    ItemsAdapter(List<Item> items, Events listener) {
         if (listener == null)
             throw new IllegalArgumentException("ItemListEventsCallbacks listener should not be null!");
 
@@ -85,7 +90,6 @@ public class ItemsListAdapter extends RecyclerView.Adapter<ItemsListAdapter.View
         return mValues.size();
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView  mName;
 
@@ -102,21 +106,15 @@ public class ItemsListAdapter extends RecyclerView.Adapter<ItemsListAdapter.View
             mName.setText( mItem.getName() );
 
             // update item
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mItem.setRandomName(); // simulate  item update
-                    mListener.onEditItem(mItem, getAdapterPosition());
-                }
+            itemView.setOnClickListener(view -> {
+                mItem.setRandomName(); // simulate  item update
+                mListener.onEditItem(mItem, getAdapterPosition());
             });
 
             // remove item
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    mListener.onDeleteItem(mItem, getAdapterPosition());
-                    return false;
-                }
+            itemView.setOnLongClickListener(view -> {
+                mListener.onDeleteItem(mItem, getAdapterPosition());
+                return false;
             });
 
         }

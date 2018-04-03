@@ -10,6 +10,6 @@ import eu.aboutall.room.data.Item;
  */
 
 @Database(entities = {Item.class}, version = 1)
-public abstract class AppDatabase extends RoomDatabase {
-    public abstract ItemsDao itemsDao();
+public abstract class LocalDatabase extends RoomDatabase {
+    public abstract DaoApi getDaoApi();
 }

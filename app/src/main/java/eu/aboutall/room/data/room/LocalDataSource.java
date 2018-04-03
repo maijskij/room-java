@@ -7,26 +7,25 @@ import android.content.Context;
  * Created by denis on 25/08/2017.
  */
 
-public class DataSource {
+public class LocalDataSource {
 
-    public AppDatabase db;
+    public LocalDatabase db;
 
     private static final String DB_NAME = "database-name";
 
-    private static DataSource ds;
+    private static LocalDataSource ds;
 
-    public static DataSource getInstance(Context context){
+    public static LocalDataSource getInstance(Context context){
         if (ds == null){
-            ds = new DataSource(context);
+            ds = new LocalDataSource(context);
         }
 
         return ds;
     }
 
-    private DataSource(Context context){
+    private LocalDataSource(Context context){
         db = Room.databaseBuilder(context.getApplicationContext(),
-                AppDatabase.class, DB_NAME).build();
-
+                LocalDatabase.class, DB_NAME).build();
     }
 
 }

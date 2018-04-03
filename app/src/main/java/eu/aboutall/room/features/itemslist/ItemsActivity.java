@@ -10,7 +10,7 @@ import android.view.View;
 
 
 import eu.aboutall.room.R;
-import eu.aboutall.room.data.room.DataSource;
+import eu.aboutall.room.data.room.LocalDataSource;
 import eu.aboutall.room.data.Item;
 
 
@@ -19,10 +19,10 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class ItemsActivity extends AppCompatActivity implements ItemListEventsCallbacks, ItemsContract.View {
+public class ItemsActivity extends AppCompatActivity implements ItemsAdapter.Events, ItemsContract.View {
 
 
-    private ItemsListAdapter mAdapter;
+    private ItemsAdapter mAdapter;
 
     private ItemsPresenter mPresenter;
 
@@ -48,7 +48,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemListEventsCa
 
         // Create the presenter
         mPresenter = new ItemsPresenter(
-                DataSource.getInstance(this.getApplicationContext()).db.itemsDao(),
+                LocalDataSource.getInstance(this.getApplicationContext()).db.getDaoApi(),
                 this);
     }
 
@@ -87,11 +87,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemListEventsCa
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 
-        mAdapter = new ItemsListAdapter(new ArrayList<Item>(), this);
+        mAdapter = new ItemsAdapter(new ArrayList<Item>(), this);
         recyclerView.setAdapter(mAdapter);
     }
 
-    // ItemListEventsCallbacks implementation
+    // ItemsAdapter.Events implementation
 
     @Override
     public void onDeleteItem(Item item, int position) {

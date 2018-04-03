@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @Dao
-public interface ItemsDao extends ItemsDataSource {
+public interface DaoApi extends ItemsDataSource {
 
     @Query("SELECT * FROM items")
     Flowable<List<Item>> getAll();
