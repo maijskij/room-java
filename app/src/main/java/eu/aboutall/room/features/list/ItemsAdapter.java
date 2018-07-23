@@ -1,4 +1,4 @@
-package eu.aboutall.room.features.itemslist;
+package eu.aboutall.room.features.list;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import eu.aboutall.room.data.Item;
-
 import java.util.List;
+
+import eu.aboutall.room.data.Item;
 
 /**
  * Created by denis on 25/08/2017.
@@ -19,10 +19,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     public interface Events {
 
-        void onDeleteItem(Item item, int position);
-        void onEditItem(Item item, int position);
+        void onItemLongClick(Item item);
+        void onItemClick(Item item);
     }
 
+    private static final int NOT_FOUND = -1;
     private final List<Item> mValues;
     private final Events mListener;
 
@@ -48,46 +49,50 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     }
 
 
-    public void setData(List<Item> data){
+    public void replaceData(List<Item> data){
 
         if (data == null) {
             return;
         }
-        // TODO: remake with a range
-        clearData();
+
+        mValues.clear();
         mValues.addAll(data);
         notifyDataSetChanged();
     }
 
-    public void clearData(){
-        notifyItemRangeRemoved(0, mValues.size());
-        mValues.clear();
+    public void updateItem(Item item) {
 
+        int position = getItemPosition(item);
+        if ( position < 0) return;
+
+        //mValues.get( position ) = item;
+        notifyItemChanged( position );
     }
 
-    public void removeAtPosition(int position) {
-        mValues.remove(position);
-        notifyItemRemoved(position);
-    }
+    public void removeItem(Item item) {
 
-    public void add(Item newItem) {
+        int position = getItemPosition(item);
+        if ( position < 0) return;
 
-        mValues.add(0,newItem);
-        notifyItemInserted(0);
-    }
+        mValues.remove( position );
+        notifyItemRemoved( position );
 
-
-    public void dataChanged(int num, Item item) {
-        notifyItemChanged(num, item);
-    }
-
-    public Item getItem(int position) {
-        return  mValues.get(position);
     }
 
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+
+    private int getItemPosition(Item item){
+
+        for(int i = 0; i < mValues.size(); i++ ){
+
+            if (mValues.get(i).equals(item)) return i;
+        }
+
+        return NOT_FOUND;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -107,13 +112,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
             // update item
             itemView.setOnClickListener(view -> {
-                mItem.setRandomName(); // simulate  item update
-                mListener.onEditItem(mItem, getAdapterPosition());
+                mListener.onItemClick(mItem);
             });
 
             // remove item
             itemView.setOnLongClickListener(view -> {
-                mListener.onDeleteItem(mItem, getAdapterPosition());
+                mListener.onItemLongClick(mItem);
                 return false;
             });
 

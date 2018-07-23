@@ -28,7 +28,7 @@ public class Item implements Parcelable {
     public Item() {
 
         this.uuid = UUID.randomUUID().toString();
-        setRandomName();
+        this.name =  getRandomName();
     }
 
     public Item(@NonNull String uuid, String name) {
@@ -48,11 +48,6 @@ public class Item implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setRandomName(){
-        Random rand = new Random();
-        this.name = DEFAULT_CAPTION + rand.nextInt(100);
     }
 
     // Parcelable implementation
@@ -85,4 +80,23 @@ public class Item implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        return uuid.equals(item.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
+    }
+
+    public static String getRandomName() {
+        Random rand = new Random();
+        return DEFAULT_CAPTION + rand.nextInt(100);
+    }
 }

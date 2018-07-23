@@ -1,4 +1,4 @@
-package eu.aboutall.room.data.room;
+package eu.aboutall.room.data.source.room;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
@@ -8,6 +8,7 @@ import eu.aboutall.room.data.Item;
 /**
  * Created by denis on 25/08/2017.
  */
+
 
 @Database(entities = {Item.class}, version = 1)
 public abstract class LocalDatabase extends RoomDatabase {

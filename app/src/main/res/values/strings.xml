@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Room Java</string>
+    <string name="successfully_saved_item_message">Item saved!</string>
+    <string name="loading_tasks_error">Error while loading items</string>
+    <string name="no_tasks_all">You have no Items!</string>
+    <string name="successfully_saved_task_message">Item saved</string>
+    <string name="empty_task_message">Item can not be empty.</string>
+    <string name="db_error">Database error!</string>
 </resources>
